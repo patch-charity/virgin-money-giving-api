@@ -6,7 +6,7 @@ Provides a PHP library for interacting with the Virgin Money Giving API.
 
 ## Installation
 
-Install the latest version with
+Install the latest version with:
 
 ```bash
 $ composer require reason-digital/virgin-money-giving-api
