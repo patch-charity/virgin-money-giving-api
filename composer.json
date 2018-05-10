@@ -1,0 +1,19 @@
+{
+    "name": "reason-digital/virgin-money-giving-api",
+    "type": "library",
+    "description": "Provides a PHP library for interacting with the Virgin Money Giving API. ",
+    "keywords": ["API","VMG"],
+    "homepage": "https://github.com/reason-digital/virgin-money-giving-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Reason Digital",
+            "email": "hello@reasondigital.com",
+            "homepage": "https://reasondigital.com",
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "~6.0",
+        "rap2hpoutre/convert-accent-characters": "^0.1.0"
+    }
+}
