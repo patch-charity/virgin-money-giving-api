@@ -2,10 +2,9 @@
 
 namespace VirginMoneyGivingAPI;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
-abstract class VmgConnector
+abstract class VmgConnector implements VmgConnectorInterface
 {
     /**
      * Sandbox Endpoint URL
@@ -114,5 +113,11 @@ abstract class VmgConnector
     public function getEndpoint() : string
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+    }
+
+    public function request($path, $method = 'GET', $data = [])
+    {
+        //$this->guzzleClient->request();
+        // @todo - Given the path and method do the request via Guzzle and handle any issues?
     }
 }
