@@ -2,6 +2,7 @@
 
 namespace VirginMoneyGivingAPI;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
 abstract class VmgConnector
@@ -24,12 +25,12 @@ abstract class VmgConnector
     /**
      * @var string The VMG API key
      */
-    private $apiKey;
+    protected $apiKey;
 
     /**
      * @var \GuzzleHttp\ClientInterface The Guzzle client
      */
-    private $guzzleClient;
+    protected $guzzleClient;
 
     /**
      * @var bool
@@ -38,9 +39,28 @@ abstract class VmgConnector
 
     public function __construct($apiKey, ClientInterface $client, $testMode = false)
     {
+        $this->setApiKey($apiKey);
+        $this->setGuzzleClient($client);
+        $this->setTestMode($testMode);
+    }
+
+    /**
+     * Setter for the API key.
+     *
+     * @param string $apiKey
+     *
+     * @return $this
+     */
+    public function setApiKey(string $apiKey)
+    {
         $this->apiKey = $apiKey;
-        $this->guzzleClient = $client;
-        $this->testMode = $testMode;
+
+        return $this;
+    }
+
+    public function getApiKey() : string
+    {
+        return $this->apiKey;
     }
 
     /**
@@ -62,9 +82,28 @@ abstract class VmgConnector
      *
      * @return boolean
      */
-    public function getTestMode()
+    public function getTestMode() : bool
     {
         return $this->testMode;
+    }
+
+    /**
+     * Setter for the Guzzle client.
+     *
+     * @param \GuzzleHttp\ClientInterface $client
+     *
+     * @return $this
+     */
+    public function setGuzzleClient(ClientInterface $client)
+    {
+        $this->guzzleClient = $client;
+
+        return $this;
+    }
+
+    public function getGuzzleClient() : ClientInterface
+    {
+        return $this->guzzleClient;
     }
 
     /**
@@ -72,12 +111,8 @@ abstract class VmgConnector
      *
      * @return string
      */
-    public function getEndpoint()
+    public function getEndpoint() : string
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
-
-    // @todo - request and response tings
-
-    // @todo - error logging goes here
 }
