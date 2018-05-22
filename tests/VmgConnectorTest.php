@@ -2,17 +2,13 @@
 
 namespace Tests;
 
-use GuzzleHttp\Client;
-use PHPUnit\Framework\TestCase;
 use Tests\ConcreteConnector as VmgConnector;
 
-class VmgConnectorTest extends TestCase
+class VmgConnectorTest extends VmgTestBase
 {
     public function testEndpointUrl()
     {
-        // @todo - Hand this off to a base test class.
-        $guzzleClient = new Client();
-        $connector = new VmgConnector('API_KEY', $guzzleClient, $testMode = false);
+        $connector = new VmgConnector('API_KEY', $this->guzzleClient, $testMode = false);
 
         // Check we are looking at the live endpoint.
         $this->assertSame('https://api.virginmoneygiving.com', $connector->getEndpoint());
