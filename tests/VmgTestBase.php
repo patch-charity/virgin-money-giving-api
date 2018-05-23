@@ -12,6 +12,8 @@ class VmgTestBase extends TestCase
      */
     protected $guzzleClient;
 
+    // @todo - Set Sandbox stuff for API keys that you know work
+
     public function setUp()
     {
         $this->guzzleClient = new Client();

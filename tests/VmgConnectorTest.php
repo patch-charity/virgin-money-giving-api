@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Tests\ConcreteConnector as VmgConnector;
+use VirginMoneyGivingAPI\Exceptions\ConnectorException;
 
 class VmgConnectorTest extends VmgTestBase
 {
@@ -17,4 +18,15 @@ class VmgConnectorTest extends VmgTestBase
         $connector->setTestMode(true);
         $this->assertSame('https://sandbox.api.virginmoneygiving.com', $connector->getEndpoint());
     }
+
+    public function testRequestMethod()
+    {
+        $connector = new VmgConnector('API_KEY', $this->guzzleClient, $testMode = true);
+
+        $this->expectExceptionMessage('Only POST and GET requests are supported.');
+        $this->expectException(ConnectorException::class);
+        $response = $connector->request('http://example.com', 'NOT VALID');
+    }
+
+    // @todo - Tests for 404 and 403 repsonses.
 }
