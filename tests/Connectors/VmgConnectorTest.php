@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
+namespace Tests\Connectors;
 
-use Tests\ConcreteConnector as VmgConnector;
+use Tests\Connectors\ConcreteConnector as VmgConnector;
+use Tests\VmgTestBase;
 use VirginMoneyGivingAPI\Exceptions\ConnectorException;
 
 class VmgConnectorTest extends VmgTestBase
@@ -29,4 +30,5 @@ class VmgConnectorTest extends VmgTestBase
     }
 
     // @todo - Tests for 404 and 403 repsonses.
+    // @todo - Test that it blows up when accented characters are passed
 }
