@@ -83,29 +83,9 @@ class Fundraiser extends AbstractModel
     protected $termsAndConditionsAccepted;
 
     /**
-     * @var string
-     */
-    protected $charityMarketingIndicator = 'N';
-
-    /**
-     * @var string
-     */
-    protected $allCharityMarketingIndicator = 'N';
-
-    /**
-     * @var string
-     */
-    protected $virginMarketingIndicator = 'N';
-
-    /**
      * @var string YYYYMMDD.
      */
     protected $dateOfBirth;
-
-    /**
-     * @var string
-     */
-    protected $vmgMarketingIndicator = 'N';
 
     /**
      * @return string
@@ -329,7 +309,7 @@ class Fundraiser extends AbstractModel
      */
     public function setEmailAddress(string $emailAddress): Fundraiser
     {
-        if (filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
             throw new \Exception('The email address must be in a valid format according to FILTER_VALIDATE_EMAIL.');
         }
         $this->emailAddress = $this->convertAccentedCharacters($emailAddress);
@@ -371,7 +351,7 @@ class Fundraiser extends AbstractModel
      */
     public function setTermsAndConditionsAccepted(string $termsAndConditionsAccepted): Fundraiser
     {
-        if ($termsAndConditionsAccepted != 'N' || $termsAndConditionsAccepted != 'Y') {
+        if ($termsAndConditionsAccepted != 'N' && $termsAndConditionsAccepted != 'Y') {
             throw new \Exception('Terms and conditions must be Y/N.');
         }
         $this->termsAndConditionsAccepted = $termsAndConditionsAccepted;
@@ -395,7 +375,7 @@ class Fundraiser extends AbstractModel
     public function setDateOfBirth(string $dateOfBirth): Fundraiser
     {
         if (!preg_match("/^[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/", $dateOfBirth)) {
-            throw new \Exception('Date of birth must be in YYMMDD format.');
+            throw new \Exception('Date of birth must be in YYYYMMDD format.');
         }
         $this->dateOfBirth = $dateOfBirth;
         return $this;

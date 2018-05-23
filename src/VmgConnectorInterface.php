@@ -2,7 +2,7 @@
 
 namespace VirginMoneyGivingAPI;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 
 
 interface VmgConnectorInterface {
@@ -14,7 +14,7 @@ interface VmgConnectorInterface {
 
     public function getTestMode();
 
-    public function setGuzzleClient(ClientInterface $client);
+    public function setGuzzleClient(Client $client);
 
     public function getGuzzleClient();
 

@@ -20,7 +20,7 @@ interface ExceptionInterface
 
     public function getMessageDetails();
 
-    public function setInputDetails(string $inputDetails);
+    public function setInputDetails($inputDetails);
 
     public function getInputDetails();
 }

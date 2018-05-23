@@ -2,6 +2,7 @@
 
 namespace VirginMoneyGivingAPI;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use VirginMoneyGivingAPI\Exceptions\ConnectorException;
@@ -30,7 +31,7 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
     protected $apiKey;
 
     /**
-     * @var \GuzzleHttp\ClientInterface The Guzzle client
+     * @var \GuzzleHttp\Client The Guzzle client
      */
     protected $guzzleClient;
 
@@ -44,7 +45,7 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
      */
     protected $errors;
 
-    public function __construct($apiKey, ClientInterface $client, $testMode = false)
+    public function __construct($apiKey, Client $client, $testMode = false)
     {
         $this->setApiKey($apiKey);
         $this->setGuzzleClient($client);
@@ -101,14 +102,14 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
      *
      * @return $this
      */
-    public function setGuzzleClient(ClientInterface $client)
+    public function setGuzzleClient(Client $client)
     {
         $this->guzzleClient = $client;
 
         return $this;
     }
 
-    public function getGuzzleClient() : ClientInterface
+    public function getGuzzleClient() : Client
     {
         return $this->guzzleClient;
     }
@@ -123,7 +124,17 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 
-    public function request($path, $method = 'GET', $data = [])
+    /**
+     * Make a call to the VMG API.
+     *
+     * @param $path
+     * @param string $method
+     * @param array $options
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \VirginMoneyGivingAPI\Exceptions\ConnectorException
+     */
+    public function request($path, $method = 'GET', $options = [])
     {
         // Make sure we are posting or getting.
         if ($method != 'POST' && $method != 'GET') {
@@ -135,7 +146,13 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
 
         // Give the request a go and catch the errors we want to handle.
         try {
-            $response = $this->guzzleClient->request($method, $url);
+            // We need to switch on get and post
+            $client = $this->getGuzzleClient();
+            if ($method == 'GET') {
+                $response = $client->get($url, $options);
+            } else {
+                $response = $client->post($url, $options);
+            }
         } catch (RequestException $exception) {
             // Give a specific response message depending on the response code.
             switch ($exception->getCode()) {
@@ -143,7 +160,7 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
                     $message = 'VMG has returned a 404. This can mean the URL isn\'t found or that a lookup has returned no results.';
                     break;
                 case 403:
-                    $message = 'VMG has returned a 403. This usually means your API key is either invalid or you\'re trying to use it against the wrong API. Remember fundraiser API keys cannot be used to create a fundraiser account for example.';
+                    $message = 'VMG has returned a 403. This usually means your API key is either invalid or you\'re trying to use it against the wrong API. Remember fundraiser API keys cannot be used to create a fundraiser account for example. This can also mean your request isn\'t in the right format. If you\'re constantly getting this get in touch with VMG.';
                     break;
                 default:
                     $message = 'VMG has responded with an error. Please check the exception.';
@@ -151,28 +168,12 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
 
             }
 
-            // If we have errors in the response body then pass them to the exception.
-            $vmgErrors = null;
-            $responseContents = json_decode($exception->getResponse()->getBody()->getContents());
-            if ($responseContents->errors) {
-                $vmgErrors = $responseContents->errors[0];
-            }
-
-            throw new ConnectorException($message, $exception->getCode(), $exception->getPrevious(), $vmgErrors);
+            throw new ConnectorException($message, $exception->getCode(), $exception->getPrevious(), $exception->getResponse()->getBody()->getContents());
         }
 
-        // @todo - decode the response body
+        // @todo - We can get a 200 that is '<html><head><title>Request Rejected</title>' so we need to try and figure out how to do that too
 
-        //$exception->getResponse()->getBody()->getContents()
-        var_dump('correct response');
-        var_dump(json_decode($response->getBody()->getContents()));
-
-        //var_dump($response);
-
-        // @todo - if the response body has an error in it then throw an exception to be caught by
-        // whichever connector has called the request.
-
-        // @todo - do a response object - Set the body and all that stuff
+        // Send the response back for whoever called this to deal with.
         return $response;
     }
 }
