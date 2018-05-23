@@ -122,6 +122,12 @@ class Fundraiser extends AbstractModel
      */
     public function setTitle(string $title): Fundraiser
     {
+        $allowed_values = [
+            'Mr', 'Mrs', 'Ms', 'Miss', 'Dr', 'Prof',
+        ];
+        if (!in_array($title, $allowed_values)) {
+            throw new \Exception('The title must be one of Mr, Mrs, Ms, Miss, Dr, Prof.');
+        }
         $this->title = $this->convertAccentedCharacters($title);
         return $this;
     }

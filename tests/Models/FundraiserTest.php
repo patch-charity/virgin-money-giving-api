@@ -6,6 +6,17 @@ use Tests\VmgTestBase;
 use VirginMoneyGivingAPI\Models\Fundraiser;
 
 class FundraiserTest extends VmgTestBase {
+
+    public function testTitle()
+    {
+        $fundraiser = new Fundraiser();
+        $this->expectException(\Exception::class);
+        $fundraiser->setTitle('Doctor');
+
+        $fundraiser->setTitle('Ms');
+        $this->assertSame('Ms', $fundraiser->getTitle());
+    }
+
     public function testEmail()
     {
         $fundraiser = new Fundraiser();
