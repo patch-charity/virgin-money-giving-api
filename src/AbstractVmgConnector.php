@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use VirginMoneyGivingAPI\Exceptions\ConnectorException;
 use function GuzzleHttp\json_decode;
 
-abstract class VmgConnector implements VmgConnectorInterface
+abstract class AbstractVmgConnector implements VmgConnectorInterface
 {
     /**
      * Sandbox Endpoint URL
@@ -123,15 +123,6 @@ abstract class VmgConnector implements VmgConnectorInterface
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 
-    /**
-     * @param $path
-     * @param string $method
-     * @param array $data
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\VirginMoneyGivingAPI\Exceptions\ConnectorException
-     * @throws \Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     public function request($path, $method = 'GET', $data = [])
     {
         // Make sure we are posting or getting.

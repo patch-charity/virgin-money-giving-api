@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use VirginMoneyGivingAPI\VmgConnector;
+use VirginMoneyGivingAPI\AbstractVmgConnector;
 
 /**
  * Class ConcreteConnector
@@ -11,7 +11,7 @@ use VirginMoneyGivingAPI\VmgConnector;
  *
  * @package tests
  */
-class ConcreteConnector extends VmgConnector
+class ConcreteConnector extends AbstractVmgConnector
 {
     //
 }

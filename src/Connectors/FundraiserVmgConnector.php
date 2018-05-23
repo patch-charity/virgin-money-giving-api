@@ -2,10 +2,10 @@
 
 namespace VirginMoneyGivingAPI\Connectors;
 
-use VirginMoneyGivingAPI\VmgConnector;
+use VirginMoneyGivingAPI\AbstractVmgConnector;
 use function Rap2hpoutre\ConvertAccentCharacters\convert_accent_characters;
 
-class FundraiserVmgConnector extends VmgConnector
+class FundraiserVmgConnector extends AbstractVmgConnector
 {
 
     public function search($surname, $forename)
