@@ -2,10 +2,37 @@
 
 Provides a PHP library for interacting with the Virgin Money Giving API.
 
-@todo - Why this is preferable over straight integrating with the API.
+This library will help with pushing and pulling data from the API. Unfortunately the API has quite a few undocumented quirks that this library hopes to stop developers falling into.
 
 ## Prerequisites 
-@todo - Charity API key - explain what the different ones are and why you need them
+
+### API Keys
+To interact with the VGM API you will need to get API keys. To do this you'll need to register on the site (https://developer.virginmoneygiving.com/member/register).
+
+You will need to create an application here on the Apps overview page: /apps/myapps.
+
+Then on your keys overview page you can grab your API key: /apps/mykeys.
+
+For some reason you will need different API keys for different API calls. The list can be found here:
+
+https://developer.virginmoneygiving.com/our_apis
+
+### Test data
+When testing against the Sandbox there are a few bits of test data already setup:
+
+#### Charities
+
+| Name        | Resource ID           | 
+| ------------- |:-------------:| 
+| Charity2     | 6a5880c9-13e4-4cf4-987e-931f3899b9d5 | 
+| Cancer Charity | 8da32779-1c1b-4d20-8714-df3219836618 |
+
+#### Fundraisers
+@todo - If there are any
+
+#### Events
+@todo - Grab some default ones
+
 
 ## Installation
 
@@ -15,11 +42,11 @@ Install the latest version with:
 $ composer require reason-digital/virgin-money-giving-api
 ```
 
+## Usage
+@todo - Some code examples
 
-### Section Guide @todo
+## Running tests
+@todo - composer install phpunit
 
-- Composer install?
-- Running tests
-- Methods available
-- Charity API key
-- Roadmap
+## Roadmap
+- Next things todo
