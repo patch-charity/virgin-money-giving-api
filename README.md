@@ -50,4 +50,6 @@ $ composer require reason-digital/virgin-money-giving-api
 - `phpunit` 
 
 ## Roadmap
-- First thing todo is to mock the API calls!
+- First thing todo is to mock the API calls! We are bumping into the queries per second limit
+- Use a hydrator for mapping the fundraiser and page details to the API call
+- More tests
