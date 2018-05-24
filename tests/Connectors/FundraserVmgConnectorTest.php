@@ -11,7 +11,7 @@ use VirginMoneyGivingAPI\Responses\FundraiserCreateResponse;
 class FundraserVmgConnectorTest extends VmgTestBase {
     public function testSearchNotFound()
     {
-        $fundraiserConnector = new FundraiserVmgConnector('878bbz7ubxzn55af48675rdz', $this->guzzleClient, true);
+        $fundraiserConnector = new FundraiserVmgConnector('878bbz7ubxzn55af48675rdz', $this->getGuzzleClient(), true);
 
         // @todo - We need to mock the response once we have a proper one - See Omnipay
 
@@ -63,7 +63,7 @@ class FundraserVmgConnectorTest extends VmgTestBase {
         $fundraiser->setTermsAndConditionsAccepted('Y');
         $fundraiser->setDateOfBirth('20010101');
 
-        $fundraiserConnector = new FundraiserVmgConnector('8gvrs9z4vud26psfgekqeuqt', $this->guzzleClient, true);
+        $fundraiserConnector = new FundraiserVmgConnector('8gvrs9z4vud26psfgekqeuqt', $this->getGuzzleClient(), true);
         $response = $fundraiserConnector->create($fundraiser, 'https://www.dementiarevolution.org');
 
         $this->assertInstanceOf(FundraiserCreateResponse::class, $response);

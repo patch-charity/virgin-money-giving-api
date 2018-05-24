@@ -14,7 +14,22 @@ class VmgTestBase extends TestCase
 
     public function setUp()
     {
-        // @todo - Make this a mock client
-        $this->guzzleClient = new Client();
+        $this->setGuzzleClient(new Client());
+    }
+
+    /**
+     * @return \GuzzleHttp\Client
+     */
+    public function getGuzzleClient(): \GuzzleHttp\Client
+    {
+        return $this->guzzleClient;
+    }
+
+    /**
+     * @param \GuzzleHttp\Client $guzzleClient
+     */
+    public function setGuzzleClient(\GuzzleHttp\Client $guzzleClient): void
+    {
+        $this->guzzleClient = $guzzleClient;
     }
 }

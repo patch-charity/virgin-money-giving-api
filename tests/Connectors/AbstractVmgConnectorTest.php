@@ -10,7 +10,7 @@ class AbstractVmgConnectorTest extends VmgTestBase
 {
     public function testEndpointUrl()
     {
-        $connector = new VmgConnector('API_KEY', $this->guzzleClient, $testMode = false);
+        $connector = new VmgConnector('API_KEY', $this->getGuzzleClient(), $testMode = false);
 
         // Check we are looking at the live endpoint.
         $this->assertSame('https://api.virginmoneygiving.com', $connector->getEndpoint());
@@ -22,7 +22,7 @@ class AbstractVmgConnectorTest extends VmgTestBase
 
     public function testRequestMethod()
     {
-        $connector = new VmgConnector('API_KEY', $this->guzzleClient, $testMode = true);
+        $connector = new VmgConnector('API_KEY', $this->getGuzzleClient(), $testMode = true);
 
         $this->expectExceptionMessage('Only POST and GET requests are supported.');
         $this->expectException(ConnectorException::class);
