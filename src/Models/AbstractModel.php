@@ -4,6 +4,16 @@ namespace VirginMoneyGivingAPI\Models;
 
 use function Rap2hpoutre\ConvertAccentCharacters\convert_accent_characters;
 
+/**
+ * Shared functionality across all models.
+ *
+ * @todo - It looks like we don't get a resource ID back from the
+ * page create API. So this needs refactoring.
+ *
+ * Class AbstractModel
+ *
+ * @package VirginMoneyGivingAPI\Models
+ */
 abstract class AbstractModel implements ModelInterface
 {
     /**

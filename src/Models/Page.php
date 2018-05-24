@@ -24,17 +24,17 @@ class Page extends AbstractModel
     /**
      * @var string YYYYMMDD
      */
-    protected $fundraisingDate;
+    protected $fundraisingDate = '';
 
     /**
      * @var string
      */
-    protected $teamPageIndicator;
+    protected $teamPageIndicator = 'N';
 
     /**
      * @var string
      */
-    protected $teamName;
+    protected $teamName = '';
 
     /**
      * @var string
@@ -54,7 +54,7 @@ class Page extends AbstractModel
     /**
      * @var bool
      */
-    protected $charityContributionIndicator;
+    protected $charityContributionIndicator = 'N';
 
     /**
      * @var int
@@ -322,7 +322,7 @@ class Page extends AbstractModel
      */
     public function getCharitySplits(): array
     {
-        return $this->charitySplitPercent;
+        return $this->charitySplits;
     }
 
     /**

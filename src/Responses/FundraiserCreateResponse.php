@@ -6,7 +6,7 @@ namespace VirginMoneyGivingAPI\Responses;
 use Psr\Http\Message\ResponseInterface;
 use VirginMoneyGivingAPI\Models\Fundraiser;
 
-class FundraiserCreateResponse
+class FundraiserCreateResponse extends AbstractCreateResponse
 {
     //\VirginMoneyGivingAPI\Models\ModelInterface?
     protected $fundraiser;
@@ -22,66 +22,27 @@ class FundraiserCreateResponse
     protected $accessToken;
 
     /**
+     * @var string
+     */
+    protected $personalUrl;
+
+    /**
      * @var bool
      */
     protected $customerExists;
-
-    /**
-     * @var string
-     */
-    protected $message;
 
     public function __construct(ResponseInterface $response, Fundraiser $fundraiser)
     {
         $body = \GuzzleHttp\json_decode($response->getBody());
 
         $fundraiser->setResourceId($body->resourceId);
-        $this->setFundraiser($fundraiser);
+        $this->setModel($fundraiser);
         $this->setCreationSuccessful($body->creationSuccessful);
         $this->setAccessToken($body->accessToken);
         $this->setCustomerExists($body->customerExists);
         $this->setMessage($body->message);
+        $this->setPersonalUrl($body->personalUrl);
     }
-
-    /**
-     * @return \VirginMoneyGivingAPI\Models\Fundraiser
-     */
-    public function getFundraiser(): Fundraiser
-    {
-        return $this->fundraiser;
-    }
-
-    /**
-     * @param \VirginMoneyGivingAPI\Models\Fundraiser $fundraiser
-     *
-     * @return FundraiserCreateResponse
-     */
-    public function setFundraiser(Fundraiser $fundraiser): FundraiserCreateResponse
-    {
-        $this->fundraiser = $fundraiser;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCreationSuccessful(): bool
-    {
-        return $this->creationSuccessful;
-    }
-
-    /**
-     * @param bool $creationSuccessful
-     *
-     * @return FundraiserCreateResponse
-     */
-    public function setCreationSuccessful(bool $creationSuccessful): FundraiserCreateResponse
-    {
-        $this->creationSuccessful = $creationSuccessful;
-        return $this;
-    }
-
-
 
     /**
      * @return string
@@ -124,19 +85,20 @@ class FundraiserCreateResponse
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getPersonalUrl(): string
     {
-        return $this->message;
+        return $this->personalUrl;
     }
 
     /**
-     * @param string $message
+     * @param string $personalUrl
      *
      * @return FundraiserCreateResponse
      */
-    public function setMessage($message): FundraiserCreateResponse
+    public function setPersonalUrl(string $personalUrl): FundraiserCreateResponse
     {
-        $this->message = ($message) ? $message : null;
+        $this->personalUrl = $personalUrl;
         return $this;
     }
+
 }

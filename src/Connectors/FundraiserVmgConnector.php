@@ -8,6 +8,7 @@ use VirginMoneyGivingAPI\Models\Fundraiser;
 use VirginMoneyGivingAPI\Models\Page;
 use VirginMoneyGivingAPI\Responses\FundraiserCreateResponse;
 use VirginMoneyGivingAPI\Responses\FundraiserSearchResponse;
+use VirginMoneyGivingAPI\Responses\PageCreateResponse;
 
 class FundraiserVmgConnector extends AbstractVmgConnector
 {
@@ -87,63 +88,51 @@ class FundraiserVmgConnector extends AbstractVmgConnector
         return new FundraiserCreateResponse($response, $fundraiser);
     }
 
-    //https://developer.virginmoneygiving.com/docs/read/Create_Fundraiser_page
-    public function createFundraiserPage(Page $fundriaserPage, Fundraiser $fundraiser, string $charityResourceId)
+    /**
+     * Create a fundraiser page.
+     *
+     * https://developer.virginmoneygiving.com/docs/read/Create_Fundraiser_page
+     *
+     * @param \VirginMoneyGivingAPI\Models\Page $fundraiserPage
+     * @param \VirginMoneyGivingAPI\Models\Fundraiser $fundraiser
+     * @param string $accessToken
+     *
+     * @return \VirginMoneyGivingAPI\Responses\PageCreateResponse
+     * @throws \VirginMoneyGivingAPI\Exceptions\ConnectorException
+     */
+    public function createFundraiserPage(Page $fundraiserPage, Fundraiser $fundraiser, string $accessToken)
     {
-        // @todo - Response
-
-        // @todo -
-
-        ///fundraisers/v1/account/secure/{fundraiserResourceId}/newpage?api_key={your API key}
-
         $method = 'POST';
         $path = '/fundraisers/v1/account/secure/' . $fundraiser->getResourceId() . '/newpage?';
 
+        var_dump('createFundraiserPage access token: ' . $fundraiser->getAccessToken());
+
         $options = [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $fundraiser->getAccessToken(),
+                'Authorization' => 'Bearer ' . $accessToken,
             ],
             'body' => \GuzzleHttp\json_encode([
-
+                'pageTitle' => $fundraiserPage->getPageTitle(),
+                'eventResourceId' => $fundraiserPage->getEventResourceId(),
+                'fundraisingDate' => $fundraiserPage->getFundraisingDate(),
+                'teamPageIndicator' => $fundraiserPage->getTeamPageIndicator(),
+                'teamName' => $fundraiserPage->getTeamName(),
+                'teamUrl' => $fundraiserPage->getTeamUrl(),
+                'activityCode' => $fundraiserPage->getActivityCode(),
+                'activityDescription' => $fundraiserPage->getActivityDescription(),
+                'charityContributionIndicator' => $fundraiserPage->getCharityContributionIndicator(),
+                'postEventFundraisingInterval' => $fundraiserPage->getPostEventFundraisingInterval(),
+                'fundraisingTarget' => $fundraiserPage->getFundraisingTarget(),
+                'charitySplits' => $fundraiserPage->getCharitySplits()
             ])
         ];
 
-        // @todo - Populate the data
+        // Don't try and catch any errors, let them bubble up.
+        $response = $this->request($path, $method, $options);
 
-        /*$data = [
-            'pageTitle' => $submissionData['forename'] . ' ' . $submissionData['surname'] . ' London Marathon 2018',
-            'eventResourceId' => $this->event_id,
-            'fundraisingDate' => '',
-            'teamPageIndicator' => 'N',
-            'teamName' => '',
-            'teamUrl' => '',
-            'activityCode' => '',
-            'activityDescription' => '',
-            'charityContributionIndicator' => 'N',
-            'postEventFundraisingInterval' => '3',
-            'fundraisingTarget' => $fundraising_target,
-            'charitySplits' => [[
-                'charityResourceId' => $this->charity_id,
-                'charitySplitPercent' => 100]]
-        ];
-
-        $options = [
-            'method' => 'POST',
-            'data' => drupal_json_encode($data),
-            'timeout' => 15,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $accessToken
-            ],
-        ];
-
-        return drupal_http_request(
-            $this->api_url . '/fundraisers/v1/account/secure/' . $resourceId . '/newpage?api_key=' . $this->charity_api_key,
-            $options
-        );*/
+        return new PageCreateResponse($response, $fundraiserPage);
     }
 
 

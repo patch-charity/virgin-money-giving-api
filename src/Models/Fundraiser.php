@@ -383,19 +383,19 @@ class Fundraiser extends AbstractModel
     /**
      * @return string
      */
-    public function getAccessToken(): string
+    public function getAccessToken()
     {
         return $this->accessToken;
     }
 
     /**
-     * @param string $accessToken
+     * @param $accessToken
      *
      * @return Fundraiser
      */
-    public function setAccessToken(string $accessToken): Fundraiser
+    public function setAccessToken($accessToken): Fundraiser
     {
-        $this->accessToken = $accessToken;
+        $this->accessToken = ($accessToken) ? $accessToken : null;
         return $this;
     }
 }
