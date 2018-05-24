@@ -1,0 +1,11 @@
+{
+   "creationSuccessful":true,
+   "fundraiserName":"Mr Harvey Gray",
+   "resourceId":"0860f0b6-33be-486b-81fc-3320e108f8e7",
+   "personalUrl":"http://uk.sandbox.virginmoneygiving.com/Gray5b067e40a7456",
+   "alternateURLs":null,
+   "accessToken":"a8wb7d5y8zkzcz3e7jyj95x5",
+   "responseURI":"https://sandbox.api.virginmoneygiving.com/fundraisers/v1/account/0860f0b6-33be-486b-81fc-3320e108f8e7",
+   "customerExists":false,
+   "message":"Token expires in 1500 seconds"
+}

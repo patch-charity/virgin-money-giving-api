@@ -134,9 +134,9 @@ class FundraiserCreateResponse
      *
      * @return FundraiserCreateResponse
      */
-    public function setMessage(string $message): FundraiserCreateResponse
+    public function setMessage($message): FundraiserCreateResponse
     {
-        $this->message = $message;
+        $this->message = ($message) ? $message : null;
         return $this;
     }
 }

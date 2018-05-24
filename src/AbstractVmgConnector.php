@@ -168,6 +168,8 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
 
             }
 
+            var_dump($exception->getResponse());
+
             throw new ConnectorException($message, $exception->getCode(), $exception->getPrevious(), $exception->getResponse()->getBody()->getContents());
         }
 

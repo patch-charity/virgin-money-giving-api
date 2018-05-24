@@ -1,0 +1,11 @@
+{
+   "creationSuccessful":true,
+   "fundraiserName":"Mr Bruce Russell",
+   "resourceId":"45588661-0230-43b4-a57a-a2f98170a94b",
+   "personalUrl":"http://uk.sandbox.virginmoneygiving.com/Russell5b059422bc061",
+   "alternateURLs":null,
+   "accessToken":null,
+   "responseURI":"https://sandbox.api.virginmoneygiving.com/fundraisers/v1/account/45588661-0230-43b4-a57a-a2f98170a94b",
+   "customerExists":false,
+   "message":"OAuth access token not created. Error Code: <-2001>  Message: <Invalid redirect_uri> Description: <N/A>"
+}

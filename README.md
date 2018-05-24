@@ -46,7 +46,8 @@ $ composer require reason-digital/virgin-money-giving-api
 @todo - Some code examples
 
 ## Running tests
-@todo - composer install phpunit
+- `composer install` - @todo - Try this from a fresh install to see if this will install everything right.
+- `phpunit` 
 
 ## Roadmap
-- Next things todo
+- First thing todo is to mock the API calls!

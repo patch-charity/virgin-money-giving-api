@@ -7,6 +7,7 @@ use VirginMoneyGivingAPI\Connectors\FundraiserVmgConnector;
 use VirginMoneyGivingAPI\Exceptions\ConnectorException;
 use VirginMoneyGivingAPI\Models\Fundraiser;
 use VirginMoneyGivingAPI\Responses\FundraiserCreateResponse;
+use VirginMoneyGivingAPI\Responses\FundraiserSearchResponse;
 
 class FundraserVmgConnectorTest extends VmgTestBase {
     public function testSearchNotFound()
@@ -27,21 +28,20 @@ class FundraserVmgConnectorTest extends VmgTestBase {
             $this->assertEmpty($exception->getMessageDetails());
             $this->assertSame('Request params: \n  forename=User\n  surname=Test\n\n', $exception->getInputDetails());
         }
-
-        // @todo - A sucessful search returns a search response with the fundraiser in.
     }
 
-    //9ruwzujrdpmy44jzq7s2tkun - Charity key
+    public function testSearchFound()
+    {
+        $fundraiserConnector = new FundraiserVmgConnector('878bbz7ubxzn55af48675rdz', $this->getGuzzleClient(), true);
 
-    /**
-     * These are from TCT
-     *
-     * Charity key: 9ruwzujrdpmy44jzq7s2tkun
-    Fundraiser key: rsa2qqv6e9p8rkd7y4vtfjhy
-    Charity ID: 5cacf47a-3cf7-11e3-80f9-00237d37086c
-    Event ID: dabe761c-ae3d-4e66-80ed-3dbf46297bf0
-     *
-     */
+        // @todo - We need to mock the response once we have a proper one - See Omnipay
+
+        // @todo - When the sandbox gets reset this will fail. We defo need mocks
+        $response = $fundraiserConnector->search('Russel', 'Bruce');
+        $this->assertInstanceOf(FundraiserSearchResponse::class, $response);
+        $this->assertTrue($response->hasMatches());
+
+    }
 
     public function testFundraiserCreate()
     {

@@ -6,9 +6,11 @@ use VirginMoneyGivingAPI\AbstractVmgConnector;
 use function Rap2hpoutre\ConvertAccentCharacters\convert_accent_characters;
 use VirginMoneyGivingAPI\Models\Fundraiser;
 use VirginMoneyGivingAPI\Responses\FundraiserCreateResponse;
+use VirginMoneyGivingAPI\Responses\FundraiserSearchResponse;
 
 class FundraiserVmgConnector extends AbstractVmgConnector
 {
+
     /**
      * Given a first name and surname this function will search VMG for a matching
      * fundraiser.
@@ -16,7 +18,7 @@ class FundraiserVmgConnector extends AbstractVmgConnector
      * @param $surname
      * @param $forename
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \VirginMoneyGivingAPI\Responses\FundraiserSearchResponse
      * @throws \VirginMoneyGivingAPI\Exceptions\ConnectorException
      */
     public function search($surname, $forename)
@@ -29,8 +31,7 @@ class FundraiserVmgConnector extends AbstractVmgConnector
         // We don't try and catch the exceptions here
         $response = $this->request($path, $method);
 
-        // @todo - A decent response object.
-        return $response;
+        return new FundraiserSearchResponse($response);
     }
 
     public function create(Fundraiser $fundraiser, string $callbackUrl)

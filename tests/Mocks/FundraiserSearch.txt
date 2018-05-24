@@ -1,0 +1,25 @@
+{
+    "message": null,
+    "fundraiserResults": [
+        {
+            "fundraiserName": "Mr Bruce Russell",
+            "title": "Mr",
+            "forename": "Bruce",
+            "surname": "Russell",
+            "resourceId": "45588661-0230-43b4-a57a-a2f98170a94b",
+            "personalUrl": "http://uk.sandbox.virginmoneygiving.com/Russell5b059422bc061",
+            "fundraiserURI": "https://sandbox.api.virginmoneygiving.com/fundraisers/v1/account/45588661-0230-43b4-a57a-a2f98170a94b"
+        }
+    ],
+    [
+        {
+            "fundraiserName": "Mr Bruce Russell",
+            "title": "Mr",
+            "forename": "Bruce",
+            "surname": "Russell",
+            "resourceId": "45588661-0230-43b4-a57a-a2f98170a94b",
+            "personalUrl": "http://uk.sandbox.virginmoneygiving.com/Russell5b059422bc061",
+            "fundraiserURI": "https://sandbox.api.virginmoneygiving.com/fundraisers/v1/account/45588661-0230-43b4-a57a-a2f98170a94b"
+        }
+    ]
+}
