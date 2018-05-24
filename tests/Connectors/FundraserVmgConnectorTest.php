@@ -6,6 +6,7 @@ use Tests\VmgTestBase;
 use VirginMoneyGivingAPI\Connectors\FundraiserVmgConnector;
 use VirginMoneyGivingAPI\Exceptions\ConnectorException;
 use VirginMoneyGivingAPI\Models\Fundraiser;
+use VirginMoneyGivingAPI\Responses\FundraiserCreateResponse;
 
 class FundraserVmgConnectorTest extends VmgTestBase {
     public function testSearchNotFound()
@@ -62,15 +63,21 @@ class FundraserVmgConnectorTest extends VmgTestBase {
         $fundraiser->setTermsAndConditionsAccepted('Y');
         $fundraiser->setDateOfBirth('20010101');
 
+        $fundraiserConnector = new FundraiserVmgConnector('8gvrs9z4vud26psfgekqeuqt', $this->guzzleClient, true);
+        $response = $fundraiserConnector->create($fundraiser, 'https://www.dementiarevolution.org');
 
-        $fundraiserConnector = new FundraiserVmgConnector('9ruwzujrdpmy44jzq7s2tkun', $this->guzzleClient, true);
-
-        // Do we need to try/catch this? Or just return the exception
-        $response = $fundraiserConnector->create($fundraiser, 'www.google.co.uk');
-
-
-        var_dump($response);
-
-
+        $this->assertInstanceOf(FundraiserCreateResponse::class, $response);
+        $this->assertNotEmpty($response->getFundraiser()->getResourceId());
+        $this->assertTrue($response->isCreationSuccessful());
+        $this->assertFalse($response->isCustomerExists());
+        $this->assertNotEmpty($response->getAccessToken());
+        $this->assertNotEmpty($response->getAccessToken());
+        $this->assertSame('Token expires in 1500 seconds', $response->getMessage());
     }
+
+    // @todo - Add test for attempting to re-create a user
+
+    // @todo - This is for the failure.
+    //$this->assertSame('OAuth access token not created. Error Code: <-2001>  Message: <Invalid redirect_uri> Description: <N/A>', $response->getMessage());
+    //$this->assertEmpty($response->getAccessToken());
 }

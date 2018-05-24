@@ -5,6 +5,7 @@ namespace VirginMoneyGivingAPI\Connectors;
 use VirginMoneyGivingAPI\AbstractVmgConnector;
 use function Rap2hpoutre\ConvertAccentCharacters\convert_accent_characters;
 use VirginMoneyGivingAPI\Models\Fundraiser;
+use VirginMoneyGivingAPI\Responses\FundraiserCreateResponse;
 
 class FundraiserVmgConnector extends AbstractVmgConnector
 {
@@ -42,6 +43,9 @@ class FundraiserVmgConnector extends AbstractVmgConnector
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
             ],
+
+            // @todo - See if you can use this: https://github.com/Ocramius/GeneratedHydrator instead of mapping below
+
             'body' => \GuzzleHttp\json_encode([
                 'title' => $fundraiser->getTitle(),
                 'forename' => $fundraiser->getForename(),
@@ -64,21 +68,10 @@ class FundraiserVmgConnector extends AbstractVmgConnector
             ])
         ];
 
+        // Don't try and catch any errors, let them bubble up.
         $response = $this->request($path, $method, $options);
 
-        var_dump('Getting here');
-
-        var_dump($response);
-
-
-        // @todo - If we get a good response then we should populate the resource ID on the fundraiser
-        // and return it as part of the response object
-
-        // @todo - What about the token? That should be in the response
-
-        return $response;
-
-        // @todo - Create a dummy fundraiser - See Laravels mocking thing for how this can be populated
+        return new FundraiserCreateResponse($response, $fundraiser);
     }
 
 

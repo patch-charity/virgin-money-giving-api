@@ -6,7 +6,7 @@ use Tests\Connectors\ConcreteConnector as VmgConnector;
 use Tests\VmgTestBase;
 use VirginMoneyGivingAPI\Exceptions\ConnectorException;
 
-class VmgConnectorTest extends VmgTestBase
+class AbstractVmgConnectorTest extends VmgTestBase
 {
     public function testEndpointUrl()
     {

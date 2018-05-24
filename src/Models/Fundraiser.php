@@ -12,11 +12,6 @@ namespace VirginMoneyGivingAPI\Models;
  */
 class Fundraiser extends AbstractModel
 {
-
-    // @todo - in the setters should we throw exceptions if the right stuff isn't passed
-    // @todo - Add in the base thing a set and get method?
-    // @todo - clean strings
-
     /**
      * @var string
      */
@@ -86,6 +81,11 @@ class Fundraiser extends AbstractModel
      * @var string YYYYMMDD.
      */
     protected $dateOfBirth;
+
+    /**
+     * @var string
+     */
+    protected $accessToken;
 
     /**
      * @return string
@@ -381,5 +381,22 @@ class Fundraiser extends AbstractModel
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+        return $this->accessToken;
+    }
 
+    /**
+     * @param string $accessToken
+     *
+     * @return Fundraiser
+     */
+    public function setAccessToken(string $accessToken): Fundraiser
+    {
+        $this->accessToken = $accessToken;
+        return $this;
+    }
 }

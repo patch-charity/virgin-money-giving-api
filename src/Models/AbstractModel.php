@@ -17,7 +17,7 @@ abstract class AbstractModel implements ModelInterface
         return $this;
     }
 
-    public function getResourceId(string $resourceID)
+    public function getResourceId()
     {
         return $this->resourceID;
     }
