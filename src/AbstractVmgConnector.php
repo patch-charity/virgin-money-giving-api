@@ -166,8 +166,6 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
 
             }
 
-            var_dump($exception->getResponse()->getBody()->getContents());
-
             throw new ConnectorException(
                 $message,
                 $exception->getCode(),
@@ -177,9 +175,6 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
         }
 
         // @todo - We can get a 200 that is '<html><head><title>Request Rejected</title>' so we need to try and figure out how to do that too
-
-        // Capture the response so we can copy and mock it later
-        var_dump($response->getBody()->getContents());
 
         // Send the response back for whoever called this to deal with.
         return $response;

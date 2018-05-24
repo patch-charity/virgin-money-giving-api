@@ -105,8 +105,6 @@ class FundraiserVmgConnector extends AbstractVmgConnector
         $method = 'POST';
         $path = '/fundraisers/v1/account/secure/' . $fundraiser->getResourceId() . '/newpage?';
 
-        var_dump('createFundraiserPage access token: ' . $fundraiser->getAccessToken());
-
         $options = [
             'headers' => [
                 'Content-Type' => 'application/json',

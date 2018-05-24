@@ -45,11 +45,16 @@ $ composer require reason-digital/virgin-money-giving-api
 ## Usage
 @todo - Some code examples
 
+@todo - Highligt as many gotchas as you can. 403s for any wrong bit
+@todo - Callback URL must match (access denied otherwise)
+
 ## Running tests
 - `composer install` - @todo - Try this from a fresh install to see if this will install everything right.
 - `phpunit` 
 
 ## Roadmap
 - First thing todo is to mock the API calls! We are bumping into the queries per second limit
-- Use a hydrator for mapping the fundraiser and page details to the API call
+- Use a hydrator for mapping the fundraiser and page details to the API call?
+- Get hooked up to TravisCI
+- Get Sensio static analyis hooked up
 - More tests

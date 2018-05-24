@@ -118,7 +118,7 @@ class FundraserVmgConnectorTest extends VmgTestBase {
         $this->assertNotEmpty($response->getAccessToken());
 
         $page = new Page();
-        $page->setPageTitle($fundraiser->getForename() . ' ' . $fundraiser->getSurname() . ' London 2019 Marathon.')
+        $page->setPageTitle($fundraiser->getForename() . ' ' . $fundraiser->getSurname() . ' London Marathon.')
             ->setEventResourceId('8b74655f-bbb8-4cba-8733-1181e79527f7')
             ->setFundraisingTarget(2000.00)
             ->setCharityResourceId('8da32779-1c1b-4d20-8714-df3219836618')
