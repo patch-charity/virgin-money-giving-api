@@ -62,7 +62,7 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame('Y', $fundraiser->getTermsAndConditionsAccepted());
     }
 
-    public function testDateOfBorth()
+    public function testDateOfBirth()
     {
         $fundraiser = new Fundraiser();
         $this->expectException(\Exception::class);

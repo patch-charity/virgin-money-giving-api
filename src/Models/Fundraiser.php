@@ -2,7 +2,6 @@
 
 namespace VirginMoneyGivingAPI\Models;
 
-
 /**
  * Class Fundraiser.
  *

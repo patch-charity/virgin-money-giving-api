@@ -125,8 +125,6 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
     }
 
     /**
-     * Make a call to the VMG API.
-     *
      * @param $path
      * @param string $method
      * @param array $options
@@ -142,7 +140,7 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
         }
 
         // Set up the request URL based on the request path.
-        $url = $this->getEndpoint() . $path . '&api_key=' . $this->getApiKey();
+        $url = $this->getEndpoint() . $path . 'api_key=' . $this->getApiKey();
 
         // Give the request a go and catch the errors we want to handle.
         try {
@@ -168,9 +166,12 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
 
             }
 
-            var_dump($exception->getResponse());
-
-            throw new ConnectorException($message, $exception->getCode(), $exception->getPrevious(), $exception->getResponse()->getBody()->getContents());
+            throw new ConnectorException(
+                $message,
+                $exception->getCode(),
+                $exception->getPrevious(),
+                $exception->getResponse()->getBody()->getContents()
+            );
         }
 
         // @todo - We can get a 200 that is '<html><head><title>Request Rejected</title>' so we need to try and figure out how to do that too
@@ -178,4 +179,7 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
         // Send the response back for whoever called this to deal with.
         return $response;
     }
+
+    // @todo - A function to convert an object like page or fundraiser to array
+    // @todo - See if you can use this: https://github.com/Ocramius/GeneratedHydrator instead of mapping below
 }

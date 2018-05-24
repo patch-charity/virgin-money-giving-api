@@ -64,7 +64,7 @@ class FundraserVmgConnectorTest extends VmgTestBase {
         $fundraiser->setDateOfBirth('20010101');
 
         $fundraiserConnector = new FundraiserVmgConnector('8gvrs9z4vud26psfgekqeuqt', $this->getGuzzleClient(), true);
-        $response = $fundraiserConnector->create($fundraiser, 'https://www.dementiarevolution.org');
+        $response = $fundraiserConnector->createFundraiserAccount($fundraiser, 'https://www.dementiarevolution.org');
 
         $this->assertInstanceOf(FundraiserCreateResponse::class, $response);
         $this->assertNotEmpty($response->getFundraiser()->getResourceId());
