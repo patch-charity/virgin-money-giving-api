@@ -14,7 +14,7 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
      * Sandbox Endpoint URL
      *
      * The VMG API has a sandbox environment in which to test. Contact your
-     * account manager to get test credentials or use the ones in @todo.
+     * account manager to get test API credentials.
      *
      * @var string URL
      */
@@ -178,7 +178,4 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
         // Send the response back for whoever called this to deal with.
         return $response;
     }
-
-    // @todo - A function to convert an object like page or fundraiser to array
-    // @todo - See if you can use this: https://github.com/Ocramius/GeneratedHydrator instead of mapping below
 }

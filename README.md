@@ -50,7 +50,7 @@ To use the fundraiser search you'll need to use your fundraiser developer API ke
 
 ```php
 <?php
-// Initalise the connector
+// Initialise the connector
 $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $guzzleClient, $testMode = false);
 
 try {
@@ -65,8 +65,57 @@ try {
 
 `$response` is then an instance of the Responses/FundraiserSearchResponse.php class. This has a `hasMatches(): bool` method.
 
-@todo - Highligt as many gotchas as you can. 403s for any wrong bit
-@todo - Callback URL must match (access denied otherwise)
+### Fundraiser account create
+To create fundraiser accounts you'll need to use your fundraiser developer API key. Any other key will return a 403 response.
+
+There are a few gotchas with this API call. First is that the `callback url` you pass to `createFundraiserAccount` needs to match what you have setup in your VMG account or you wont get an access code back with the response. Instead you'll get the following response:
+
+`OAuth access token not created. Error Code: <-2001>  Message: <Invalid redirect_uri> Description: <N/A>`
+
+If the `callback url` matches then you'll get the following response:
+
+`Token expires in 1500 seconds`
+
+This access code is valid for 1500 seconds and allows to to create a fundraising page on the fundraisers behalf.
+
+There are some fields that have validation. They can be found here: Models/FundraiserTest.php
+
+```php
+<?php
+// Initialise the connector
+$fundraiserConnector = new FundraiserVmgConnector('API_KEY', $guzzleClient, $testMode = false);
+
+try {
+    
+    $fundraiser = new Fundraiser();
+    $fundraiser->setTitle('Mr')
+        ->setForename('firstName')
+        ->setSurname('lastName')
+        ->setAddressLine1('streetName')
+        ->setAddressLine2('streetAddress')
+        ->setTownCity('city')
+        ->setCountyState('county')
+        ->setPostcode('postcode')
+        ->setCountryCode('countryCode')
+        ->setPreferredTelephone('12345678912')
+        ->setEmailAddress('Email')
+        ->setPersonalUrl('url')
+        ->setTermsAndConditionsAccepted('Y')
+        ->setDateOfBirth('20010101');
+    
+    $response = $fundraiserConnector->createFundraiserAccount($fundraiser, 'CALLBACK_URL');
+} catch (ConnectorException $exception) {
+    $exception->getErrorMessage();
+    $exception->getErrorCode();
+}
+```
+
+`$response` is then an instance of the Responses/FundraiserCreateResponse.php class.
+
+This has the `Fundraiser` and also the access code returned.
+
+### Fundraiser page create
+@todo
 
 ## Running tests
 Travis CI is setup to run tests on PRs and master. To run tests locally you will need to pull down the repo with the dev dependencies by running:
@@ -78,6 +127,6 @@ Once installed running `phpunit` will run tests.
 
 ## Roadmap
 - Usage examples for Fundraiser and Page
-- Use a hydrator for mapping the fundraiser and page details to the API call?
+- @todos round the place
 - Get Sensio static analysis hooked up
 - More tests
