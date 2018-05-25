@@ -43,17 +43,35 @@ $ composer require reason-digital/virgin-money-giving-api
 ```
 
 ## Usage
-@todo - Some code examples
+### Fundraiser search
+To use the fundraiser search you'll need to use your fundraiser developer API key. Any other key will return a 403 response.
+
+```php
+<?php
+// Initalise the connector
+$fundraiserConnector = new FundraiserVmgConnector('API_KEY', $guzzleClient, $testMode = false);
+
+try {
+    $response = $fundraiserConnector->search('Test', 'User');
+} catch (ConnectorException $exception) {
+    // VMG error message No fundraiser found for  forename=User surname=Test
+    $exception->getErrorMessage();
+    // VMG erorr code 001.02.011
+    $exception->getErrorCode();
+}
+
+// Response is then an instance of the Responses/FundraiserSearchResponse.php class.
+
+```
 
 @todo - Highligt as many gotchas as you can. 403s for any wrong bit
 @todo - Callback URL must match (access denied otherwise)
 
 ## Running tests
-- `composer install` - @todo - Try this from a fresh install to see if this will install everything right.
+- `composer install-dev` - @todo - Try this from a fresh install to see if this will install everything right.
 - `phpunit` 
 
 ## Roadmap
-- First thing todo is to mock the API calls! We are bumping into the queries per second limit
 - Use a hydrator for mapping the fundraiser and page details to the API call?
 - Get hooked up to TravisCI
 - Get Sensio static analyis hooked up
