@@ -44,13 +44,13 @@ class VmgTestBase extends TestCase
     /**
      * Given a mocked response, set the Guzzle client to use it.
      *
-     * @param \GuzzleHttp\Psr7\Response $response
+     * @param array
      *
      * @return $this
      */
-    public function setMockClient(Response $response)
+    public function setMockClient($responses)
     {
-        $mock = new MockHandler([$response]);
+        $mock = new MockHandler($responses);
 
         $handler = HandlerStack::create($mock);
 

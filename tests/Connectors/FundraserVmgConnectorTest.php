@@ -2,6 +2,7 @@
 
 namespace Tests\Connectors;
 
+use GuzzleHttp\Psr7\Response;
 use Tests\VmgTestBase;
 use VirginMoneyGivingAPI\Connectors\FundraiserVmgConnector;
 use VirginMoneyGivingAPI\Exceptions\ConnectorException;
@@ -18,9 +19,11 @@ class FundraserVmgConnectorTest extends VmgTestBase {
      */
     public function testSearchNotFound()
     {
-        $fundraiserConnector = new FundraiserVmgConnector('878bbz7ubxzn55af48675rdz', $this->getGuzzleClient(), true);
+        $stream = file_get_contents('tests/Mocks/FundraiserSearch404.txt');
+        $response = new Response(404, ['Content-Type' => 'application/json'], $stream);
+        $this->setMockClient([$response]);
 
-        // @todo - We need to mock the response once we have a proper one - See Omnipay
+        $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $this->getGuzzleClient(), true);
 
         $this->expectException(ConnectorException::class);
         $response = $fundraiserConnector->search('Test', 'User');
@@ -41,11 +44,11 @@ class FundraserVmgConnectorTest extends VmgTestBase {
      */
     public function testSearchFound()
     {
-        $fundraiserConnector = new FundraiserVmgConnector('878bbz7ubxzn55af48675rdz', $this->getGuzzleClient(), true);
+        $stream = file_get_contents('tests/Mocks/FundraiserSearch.txt');
+        $response = new Response(200, ['Content-Type' => 'application/json'], $stream);
+        $this->setMockClient([$response]);
+        $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $this->getGuzzleClient(), true);
 
-        // @todo - We need to mock the response once we have a proper one - See Omnipay
-
-        // @todo - When the sandbox gets reset this will fail. We defo need mocks
         $response = $fundraiserConnector->search('Russel', 'Bruce');
         $this->assertInstanceOf(FundraiserSearchResponse::class, $response);
         $this->assertTrue($response->hasMatches());
@@ -75,8 +78,11 @@ class FundraserVmgConnectorTest extends VmgTestBase {
             ->setTermsAndConditionsAccepted('Y')
             ->setDateOfBirth('20010101');
 
-        $fundraiserConnector = new FundraiserVmgConnector('8gvrs9z4vud26psfgekqeuqt', $this->getGuzzleClient(), true);
-        $response = $fundraiserConnector->createFundraiserAccount($fundraiser, 'https://www.dementiarevolution.org');
+        $stream = file_get_contents('tests/Mocks/FundraiserCreateWithAuthToken.txt');
+        $response = new Response(200, ['Content-Type' => 'application/json'], $stream);
+        $this->setMockClient([$response]);
+        $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $this->getGuzzleClient(), true);
+        $response = $fundraiserConnector->createFundraiserAccount($fundraiser, 'CALLBACK_URL');
 
         $this->assertInstanceOf(FundraiserCreateResponse::class, $response);
         $this->assertNotEmpty($response->getModel()->getResourceId());
@@ -90,7 +96,7 @@ class FundraserVmgConnectorTest extends VmgTestBase {
      * @throws \Exception
      * @throws \VirginMoneyGivingAPI\Exceptions\ConnectorException
      */
-    public function testPageCreate()
+    public function testFundraiserCreateWrongCallbackUrl()
     {
         $faker = \Faker\Factory::create('en_GB');
 
@@ -110,12 +116,57 @@ class FundraserVmgConnectorTest extends VmgTestBase {
             ->setTermsAndConditionsAccepted('Y')
             ->setDateOfBirth('20010101');
 
-        $fundraiserConnector = new FundraiserVmgConnector('8gvrs9z4vud26psfgekqeuqt', $this->getGuzzleClient(), true);
-        $response = $fundraiserConnector->createFundraiserAccount($fundraiser, 'https://www.dementiarevolution.org');
+        $stream = file_get_contents('tests/Mocks/FundraiserCreateNoAuthToken.txt');
+        $response = new Response(200, ['Content-Type' => 'application/json'], $stream);
+        $this->setMockClient([$response]);
+        $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $this->getGuzzleClient(), true);
+        $response = $fundraiserConnector->createFundraiserAccount($fundraiser, 'CALLBACK_URL');
 
         $this->assertInstanceOf(FundraiserCreateResponse::class, $response);
         $this->assertNotEmpty($response->getModel()->getResourceId());
-        $this->assertNotEmpty($response->getAccessToken());
+        $this->assertTrue($response->isCreationSuccessful());
+        $this->assertFalse($response->isCustomerExists());
+        $this->assertSame('OAuth access token not created. Error Code: <-2001>  Message: <Invalid redirect_uri> Description: <N/A>', $response->getMessage());
+        $this->assertEmpty($response->getAccessToken());
+    }
+
+    /**
+     * @throws \Exception
+     * @throws \VirginMoneyGivingAPI\Exceptions\ConnectorException
+     */
+    public function testPageCreate()
+    {
+        // Set the requests we need to mock in the order they will be called.
+        $stream = file_get_contents('tests/Mocks/FundraiserCreateWithAuthToken.txt');
+        $mockFundraiserResponse = new Response(200, ['Content-Type' => 'application/json'], $stream);
+        $stream = file_get_contents('tests/Mocks/PageCreateSucess.txt');
+        $mockPageResponse = new Response(200, ['Content-Type' => 'application/json'], $stream);
+        $this->setMockClient([$mockFundraiserResponse, $mockPageResponse]);
+
+        $faker = \Faker\Factory::create('en_GB');
+
+        $fundraiser = new Fundraiser();
+        $fundraiser->setTitle('Mr')
+            ->setForename($faker->firstName)
+            ->setSurname($faker->lastName)
+            ->setAddressLine1($faker->streetName)
+            ->setAddressLine2($faker->streetAddress)
+            ->setTownCity($faker->city)
+            ->setCountyState($faker->county)
+            ->setPostcode($faker->postcode)
+            ->setCountryCode($faker->countryCode)
+            ->setPreferredTelephone('12345678912')
+            ->setEmailAddress($faker->safeEmail)
+            ->setPersonalUrl(uniqid(str_replace(' ', '-', trim($fundraiser->getSurname())), false))
+            ->setTermsAndConditionsAccepted('Y')
+            ->setDateOfBirth('20010101');
+
+        $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $this->getGuzzleClient(), true);
+        $fundraiserResponse = $fundraiserConnector->createFundraiserAccount($fundraiser, 'CALLBACK_URL');
+
+        $this->assertInstanceOf(FundraiserCreateResponse::class, $fundraiserResponse);
+        $this->assertNotEmpty($fundraiserResponse->getModel()->getResourceId());
+        $this->assertNotEmpty($fundraiserResponse->getAccessToken());
 
         $page = new Page();
         $page->setPageTitle($fundraiser->getForename() . ' ' . $fundraiser->getSurname() . ' London Marathon.')
@@ -133,18 +184,12 @@ class FundraserVmgConnectorTest extends VmgTestBase {
                 ]
             ]);
 
-        // Now create the page
-        $response = $fundraiserConnector->createFundraiserPage($page, $fundraiser, $response->getAccessToken());
+        // Now create the page.
+        $response = $fundraiserConnector->createFundraiserPage($page, $fundraiser, $fundraiserResponse->getAccessToken());
 
         $this->assertInstanceOf(PageCreateResponse::class, $response);
         $this->assertTrue($response->isCreationSuccessful());
         $this->assertNotEmpty($response->getPageURI());
         $this->assertSame('Page created successfully', $response->getMessage());
     }
-
-    // @todo - Add test for attempting to re-create a user
-
-    // @todo - This is for the failure.
-    //$this->assertSame('OAuth access token not created. Error Code: <-2001>  Message: <Invalid redirect_uri> Description: <N/A>', $response->getMessage());
-    //$this->assertEmpty($response->getAccessToken());
 }

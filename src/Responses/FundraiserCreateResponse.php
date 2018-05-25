@@ -45,9 +45,9 @@ class FundraiserCreateResponse extends AbstractCreateResponse
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAccessToken(): string
+    public function getAccessToken()
     {
         return $this->accessToken;
     }

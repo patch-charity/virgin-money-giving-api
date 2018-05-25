@@ -163,7 +163,6 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
                 default:
                     $message = 'VMG has responded with an error. Please check the exception.';
                     break;
-
             }
 
             throw new ConnectorException(
