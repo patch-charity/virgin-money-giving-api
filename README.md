@@ -61,20 +61,23 @@ try {
     // VMG erorr code 001.02.011
     $exception->getErrorCode();
 }
-
-// Response is then an instance of the Responses/FundraiserSearchResponse.php class.
-
 ```
+
+`$response` is then an instance of the Responses/FundraiserSearchResponse.php class. This has a `hasMatches(): bool` method.
 
 @todo - Highligt as many gotchas as you can. 403s for any wrong bit
 @todo - Callback URL must match (access denied otherwise)
 
 ## Running tests
-- `composer install-dev` - @todo - Try this from a fresh install to see if this will install everything right.
-- `phpunit` 
+Travis CI is setup to run tests on PRs and master. To run tests locally you will need to pull down the repo with the dev dependencies by running:
+
+`composer self-update`
+`composer install --prefer-source --no-interaction --dev`
+
+Once installed running `phpunit` will run tests.
 
 ## Roadmap
+- Usage examples for Fundraiser and Page
 - Use a hydrator for mapping the fundraiser and page details to the API call?
-- Get hooked up to TravisCI
-- Get Sensio static analyis hooked up
+- Get Sensio static analysis hooked up
 - More tests
