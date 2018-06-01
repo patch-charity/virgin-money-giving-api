@@ -173,7 +173,16 @@ abstract class AbstractVmgConnector implements VmgConnectorInterface
             );
         }
 
-        // @todo - We can get a 200 that is '<html><head><title>Request Rejected</title>' so we need to try and figure out how to do that too
+        // In rare instances the VMG API will return a 200 HTML response to let
+        // the user know that the URL was rejected. Handle that below.
+        if (strpos($response->getBody()->getContents(), '<html>') !== false) {
+            throw new ConnectorException(
+                'URL rejected by VMG. This is usually because the request has something the API cannot process such as accented characters. See the support ID in the messageDetails.',
+                0,
+                null,
+                $response->getBody()->getContents()
+            );
+        }
 
         // Send the response back for whoever called this to deal with.
         return $response;
