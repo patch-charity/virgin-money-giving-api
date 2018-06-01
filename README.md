@@ -86,7 +86,6 @@ There are some fields that have validation. They can be found here: Models/Fundr
 $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $guzzleClient, $testMode = false);
 
 try {
-    
     $fundraiser = new Fundraiser();
     $fundraiser->setTitle('Mr')
         ->setForename('firstName')
@@ -103,19 +102,62 @@ try {
         ->setTermsAndConditionsAccepted('Y')
         ->setDateOfBirth('20010101');
     
-    $response = $fundraiserConnector->createFundraiserAccount($fundraiser, 'CALLBACK_URL');
+    $fundraiserResponse = $fundraiserConnector->createFundraiserAccount($fundraiser, 'CALLBACK_URL');
 } catch (ConnectorException $exception) {
     $exception->getErrorMessage();
     $exception->getErrorCode();
 }
 ```
 
-`$response` is then an instance of the Responses/FundraiserCreateResponse.php class.
+`$fundraiserResponse` is then an instance of the `Responses/FundraiserCreateResponse.php` class.
 
 This has the `Fundraiser` and also the access code returned.
 
-### Fundraiser page create
-@todo
+### Fundraiser page create (with token)
+**NOTE: First off you'll need an access token to create a page on behalf of the user. This is only available when you have created the users account programmatically as above.**
+
+If you don't have this, then the below will not work.
+
+First off we're assuming you have the following:
+- `$fundraiser` is a `Models/Fundraiser.php` object as above
+- `$fundraiserResponse` is a `Responses/FundraiserCreateResponse.php` object as above
+
+Then 
+
+```php
+<?php
+// Initialise the connector
+$fundraiserConnector = new FundraiserVmgConnector('API_KEY', $guzzleClient, $testMode = false);
+
+try {
+    $page = new Page();
+    $page->setPageTitle()
+        ->setEventResourceId('EVENT_ID')
+        ->setFundraisingTarget(2000.00)
+        ->setCharityResourceId('CHARITY_ID')
+        ->setCharitySplits([
+            [
+                'charityResourceId' => '6a5880c9-13e4-4cf4-987e-931f3899b9d5',
+                'charitySplitPercent' => 50
+            ],
+            [
+                'charityResourceId' => '8da32779-1c1b-4d20-8714-df3219836618',
+                'charitySplitPercent' => 50
+            ]
+        ]);
+    
+    // Now create the page.
+    $pageCreateResponse = $fundraiserConnector->createFundraiserPage($page, $fundraiser, $fundraiserResponse->getAccessToken());
+} catch (ConnectorException $exception) {
+    $exception->getErrorMessage();
+    $exception->getErrorCode();
+}
+```
+
+`$pageCreateResponse` is then an instance of the `Responses/PageCreateResponse.php` class.
+
+This has the `Page` and the page URI. accessed via: `$pageCreateResponse->getPageURI();`
+
 
 ## Running tests
 Travis CI is setup to run tests on PRs and master. To run tests locally you will need to pull down the repo with the dev dependencies by running:
@@ -126,7 +168,13 @@ Travis CI is setup to run tests on PRs and master. To run tests locally you will
 Once installed running `phpunit` will run tests.
 
 ## Roadmap
-- Usage examples for Fundraiser and Page
 - @todos round the place
-- Get Sensio static analysis hooked up
+    - Force a 200 with HTML error in Postman
 - More tests
+- Tag as release 1.0.0 as this does the basics
+- Get fundraising pages for an event
+- Get the fundraising total for an event
+- Create a fundraising page on behalf of someone who already has an account
+    - Handling the auth token
+    - Creating the account (same API call?)
+- https://docs.travis-ci.com/user/coveralls/
