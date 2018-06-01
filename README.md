@@ -168,9 +168,6 @@ Travis CI is setup to run tests on PRs and master. To run tests locally you will
 Once installed running `phpunit` will run tests.
 
 ## Roadmap
-- @todos round the place
-    - Force a 200 with HTML error in Postman
-- More tests
 - Tag as release 1.0.0 as this does the basics
 - Get fundraising pages for an event
 - Get the fundraising total for an event

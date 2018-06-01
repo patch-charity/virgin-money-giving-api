@@ -32,7 +32,7 @@ class AbstractVmgConnectorTest extends VmgTestBase
 
     public function testUrlRejected()
     {
-        $stream = file_get_contents('tests/Mocks/URlRejected.txt');
+        $stream = file_get_contents('tests/Mocks/UrlRejected.txt');
         $response = new Response(200, ['Content-Type' => 'application/json'], $stream);
         $this->setMockClient([$response]);
 
