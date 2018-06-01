@@ -24,7 +24,7 @@ abstract class AbstractConnectorException extends \Exception implements Exceptio
             if (strpos($responseBody, '<?xml') !== false) {
                 $this->setResponseCode(403);
                 $this->setErrorCode('000.00.002');
-                $this->setErrorMessage('You are not authorised to access this API');
+                $this->setErrorMessage('You are not authorised to access this API.');
             } else {
                 // If we have JSON set from the API.
                 $responseContents = json_decode($responseBody);

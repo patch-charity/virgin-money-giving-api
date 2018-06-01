@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<connectErrors>
+    <error>
+        <errorCode>000.00.003</errorCode>
+        <errorMessage>This API Key is either inactive, or does not have access to the requested resource</errorMessage>
+    </error>
+</connectErrors>

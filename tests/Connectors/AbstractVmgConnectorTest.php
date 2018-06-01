@@ -43,5 +43,16 @@ class AbstractVmgConnectorTest extends VmgTestBase
         $response = $connector->request('http://example.com');
     }
 
-    // @todo - Tests for 404 and 403 repsonses.
+    public function testInvalidApiKey()
+    {
+        $stream = file_get_contents('tests/Mocks/InvalidApiKey.txt');
+        $response = new Response(403, ['Content-Type' => 'application/json'], $stream);
+        $this->setMockClient([$response]);
+
+        $connector = new VmgConnector('API_KEY', $this->getGuzzleClient(), $testMode = true);
+
+        $this->expectExceptionMessage('VMG has returned a 403. This usually means your API key is either invalid or you\'re trying to use it against the wrong API. Remember fundraiser API keys cannot be used to create a fundraiser account for example. This can also mean your request isn\'t in the right format. If you\'re constantly getting this get in touch with VMG.');
+        $this->expectException(ConnectorException::class);
+        $response = $connector->request('http://example.com');
+    }
 }
