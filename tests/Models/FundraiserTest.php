@@ -27,14 +27,49 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame('test@example.com', $fundraiser->getEmailAddress());
     }
 
-    public function testPostcode()
+    public function testPostcodeNoArgument()
     {
-        $fundraiser = new Fundraiser();
-        $this->expectException(\Exception::class);
-        $fundraiser->setPostcode('123456789');
+        // Set exception expectations
+        $this->expectException(\ArgumentCountError::class);
+        $this->expectExceptionMessage('Too few arguments to function ' . Fundraiser::class .'::setPostcode()');
 
-        $fundraiser->setPostcode('12345678');
-        $this->assertSame('123456789', $fundraiser->getPostcode());
+        // Set up test
+        $fundraiser = new Fundraiser();
+
+        // Run test
+        $fundraiser->setPostcode();
+    }
+
+    public function testValidPostcode()
+    {
+        // Initiate faker library. Might be over kill for 1 test?
+        $faker = \Faker\Factory::create('en_GB');
+
+        // Set up test
+        $fundraiser = new Fundraiser();
+        $validPostCode = $faker->postcode;
+
+        // Run test
+        $fundraiser->setPostcode($validPostCode);
+
+        // Assert expected state
+        $this->assertSame($validPostCode, $fundraiser->getPostcode());
+    }
+
+    public function testInvalidPostcode()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The postcode does not match the required UK Government postcode standard.');
+
+        // Set up test
+        $fundraiser = new Fundraiser();
+        $invalidPostCode = 'NoTaPoStCoDe';
+
+        // Run test
+        $fundraiser->setPostcode($invalidPostCode);
+
+        // Assert expected state
+        $this->assertSame($invalidPostCode, $fundraiser->getPostcode());
     }
 
     public function tesTelephoneNumber()

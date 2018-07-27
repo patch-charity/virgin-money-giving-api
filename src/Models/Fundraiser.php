@@ -240,10 +240,13 @@ class Fundraiser extends AbstractModel
      */
     public function setPostcode(string $postcode): Fundraiser
     {
-        if (strlen($postcode) > 8) {
-            throw new \Exception('The postcode must be 8 characters or less.');
+        // Guard against invalid postcodes
+        if (!preg_match('/([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))\s?[0-9][A-Za-z]{2})/', $postcode)) {
+            throw new \Exception('The postcode does not match the required UK Government postcode standard.');
         }
+
         $this->postcode = $this->convertAccentedCharacters($postcode);
+
         return $this;
     }
 
