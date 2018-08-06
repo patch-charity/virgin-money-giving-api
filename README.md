@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/reason-digital/virgin-money-giving-api.svg?branch=master)](https://travis-ci.org/reason-digital/virgin-money-giving-api)
 
-# README #
+[![Coverage Status](https://coveralls.io/repos/github/reason-digital/virgin-money-giving-api/badge.svg?branch=master)](https://coveralls.io/github/reason-digital/virgin-money-giving-api?branch=master)
 
+# README #
 Provides a PHP library for interacting with the Virgin Money Giving API.
 
 This library will help with pushing and pulling data from the API. Unfortunately the API has quite a few undocumented quirks that this library hopes to stop developers falling into.
@@ -23,7 +24,6 @@ https://developer.virginmoneygiving.com/our_apis
 When testing against the Sandbox there are a few bits of test data already setup:
 
 #### Charities
-
 | Name        | Resource ID           | 
 | ------------- |:-------------:| 
 | Charity2     | 6a5880c9-13e4-4cf4-987e-931f3899b9d5 | 
@@ -37,7 +37,6 @@ When testing against the Sandbox there are a few bits of test data already setup
 
 
 ## Installation
-
 Install the latest version with:
 
 ```bash
@@ -168,10 +167,9 @@ Travis CI is setup to run tests on PRs and master. To run tests locally you will
 Once installed running `phpunit` will run tests.
 
 ## Roadmap
-- Tag as release 1.0.0 as this does the basics
+- Add a test for accented characters - Only need to test the validation like on the phone number and that.
 - Get fundraising pages for an event
 - Get the fundraising total for an event
 - Create a fundraising page on behalf of someone who already has an account
     - Handling the auth token
     - Creating the account (same API call?)
-- https://docs.travis-ci.com/user/coveralls/
