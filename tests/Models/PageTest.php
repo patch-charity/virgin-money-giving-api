@@ -10,31 +10,33 @@ class PageTest extends VmgTestBase {
 
     public function testFundraisingDate()
     {
-        $fundraiser = new Page();
+        $page = new Page();
         $this->expectException(\Exception::class);
-        $fundraiser->setFundraisingDate('THIS IS A STRING');
+        $page->setFundraisingDate('THIS IS A STRING');
+        $this->assertInstanceOf(Page::class, $page);
 
-        $fundraiser->setFundraisingDate('20010101');
-        $this->assertSame('20010101', $fundraiser->getFundraisingDate());
+        $page->setFundraisingDate('20010101');
+        $this->assertSame('20010101', $page->getFundraisingDate());
+        $this->assertInstanceOf(Page::class, $page);
     }
 
     public function testTeamPageIndicator()
     {
-        $fundraiser = new Page();
+        $page = new Page();
         $this->expectException(\Exception::class);
-        $fundraiser->setTeamPageIndicator('THIS IS A STRING');
+        $page->setTeamPageIndicator('THIS IS A STRING');
 
-        $fundraiser->setTeamPageIndicator('Y');
-        $this->assertSame('Y', $fundraiser->getTeamPageIndicator());
+        $page->setTeamPageIndicator('Y');
+        $this->assertSame('Y', $page->getTeamPageIndicator());
     }
 
     public function testCharityContributionIndicator()
     {
-        $fundraiser = new Page();
+        $page = new Page();
         $this->expectException(\Exception::class);
-        $fundraiser->setCharityContributionIndicator('THIS IS A STRING');
+        $page->setCharityContributionIndicator('THIS IS A STRING');
 
-        $fundraiser->setCharityContributionIndicator('Y');
-        $this->assertSame('Y', $fundraiser->getCharityContributionIndicator());
+        $page->setCharityContributionIndicator('Y');
+        $this->assertSame('Y', $page->getCharityContributionIndicator());
     }
 }
