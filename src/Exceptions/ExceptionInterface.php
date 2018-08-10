@@ -8,7 +8,7 @@ interface ExceptionInterface
 
     public function getResponseCode();
 
-    public function setErrorCode(string $errorCode);
+    public function setErrorCode($errorCode);
 
     public function getErrorCode();
 
