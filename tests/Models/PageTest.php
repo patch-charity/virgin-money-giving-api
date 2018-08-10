@@ -49,4 +49,16 @@ class PageTest extends VmgTestBase {
         $page->setTeamName('Normal team namé');
         $this->assertSame($page->getTeamName(), 'Normal team name');
     }
+
+    public function testSetActivityDescription()
+    {
+        $page = new Page();
+        $teamName = 'Activity Description here';
+        $page->setActivityDescription($teamName);
+        $this->assertSame($page->getActivityDescription(), $teamName);
+
+        // Now test with accented characters
+        $page->setActivityDescription('Activity Description heré');
+        $this->assertSame($page->getActivityDescription(), 'Activity Description here');
+    }
 }
