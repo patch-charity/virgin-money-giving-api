@@ -13,11 +13,9 @@ class PageTest extends VmgTestBase {
         $page = new Page();
         $this->expectException(\Exception::class);
         $page->setFundraisingDate('THIS IS A STRING');
-        $this->assertInstanceOf(Page::class, $page);
 
         $page->setFundraisingDate('20010101');
         $this->assertSame('20010101', $page->getFundraisingDate());
-        $this->assertInstanceOf(Page::class, $page);
     }
 
     public function testTeamPageIndicator()
@@ -38,5 +36,17 @@ class PageTest extends VmgTestBase {
 
         $page->setCharityContributionIndicator('Y');
         $this->assertSame('Y', $page->getCharityContributionIndicator());
+    }
+
+    public function testSetTeamName()
+    {
+        $page = new Page();
+        $teamName = 'Normal team name';
+        $page->setTeamName($teamName);
+        $this->assertSame($page->getTeamName(), $teamName);
+
+        // Now test with accented characters
+        $page->setTeamName('Normal team namé');
+        $this->assertSame($page->getTeamName(), 'Normal team name');
     }
 }

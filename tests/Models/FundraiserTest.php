@@ -72,7 +72,7 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame($invalidPostCode, $fundraiser->getPostcode());
     }
 
-    public function tesTelephoneNumber()
+    public function testTelephoneNumber()
     {
         $fundraiser = new Fundraiser();
         $this->expectException(\Exception::class);
