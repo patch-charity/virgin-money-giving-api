@@ -61,4 +61,20 @@ class PageTest extends VmgTestBase {
         $page->setActivityDescription('Activity Description heré');
         $this->assertSame($page->getActivityDescription(), 'Activity Description here');
     }
+
+    public function testSetCharityResourceId()
+    {
+        $page = new Page();
+        $resourceId = 'resource-id-here';
+        $page->setCharityResourceId($resourceId);
+        $this->assertSame($page->getCharityResourceId(), $resourceId);
+    }
+
+    public function testSetPostEventFundraisingInterval()
+    {
+        $page = new Page();
+        $interval = 2;
+        $page->setPostEventFundraisingInterval($interval);
+        $this->assertSame($page->getPostEventFundraisingInterval(), $interval);
+    }
 }
