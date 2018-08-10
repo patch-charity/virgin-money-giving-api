@@ -50,14 +50,14 @@ abstract class AbstractConnectorException extends \Exception implements Exceptio
         return $this->responseCode;
     }
 
-    public function setErrorCode(string $errorCode)
+    public function setErrorCode($errorCode)
     {
         $this->errorCode = $errorCode;
     }
 
     public function getErrorCode()
     {
-        return $this->errorCode;
+        return $this->errorCode ?? 'None provided';
     }
 
     public function setErrorMessage(string $errorMessage)
