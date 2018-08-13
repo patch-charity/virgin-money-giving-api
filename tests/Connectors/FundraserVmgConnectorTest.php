@@ -192,4 +192,22 @@ class FundraserVmgConnectorTest extends VmgTestBase {
         $this->assertNotEmpty($response->getPageURI());
         $this->assertSame('Page created successfully', $response->getMessage());
     }
+
+    /**
+     * @throws \VirginMoneyGivingAPI\Exceptions\ConnectorException
+     */
+    public function testNoErrorCode()
+    {
+        $stream = file_get_contents('tests/Mocks/NoErrorCode.txt');
+        $response = new Response(404, ['Content-Type' => 'application/json'], $stream);
+        $this->setMockClient([$response]);
+
+        $fundraiserConnector = new FundraiserVmgConnector('API_KEY', $this->getGuzzleClient(), true);
+
+        try {
+            $response = $fundraiserConnector->search('Test', 'User');
+        } catch (ConnectorException $exception) {
+            $this->assertSame('None provided', $exception->getErrorCode());
+        }
+    }
 }

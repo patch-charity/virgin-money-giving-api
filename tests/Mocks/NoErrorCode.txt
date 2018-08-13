@@ -1,0 +1,10 @@
+{
+    "errors": [
+        {
+            "responseCode": null,
+            "errorMessage": "No fundraiser found for  forename=User surname=Test",
+            "messageDetails": [],
+            "inputDetails": "Request params: \n  forename=User\n  surname=Test\n\n"
+        }
+    ]
+}

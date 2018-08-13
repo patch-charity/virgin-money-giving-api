@@ -31,7 +31,10 @@ abstract class AbstractConnectorException extends \Exception implements Exceptio
                 if ($responseContents->errors) {
                     $vmgErrors = $responseContents->errors[0];
                     $this->setResponseCode($vmgErrors->responseCode);
-                    $this->setErrorCode($vmgErrors->errorCode);
+                    // We don't always have an error code.
+                    if (!empty($vmgErrors->errorCode)) {
+                        $this->setErrorCode($vmgErrors->errorCode);
+                    }
                     $this->setErrorMessage($vmgErrors->errorMessage);
                     $this->setMessageDetails($vmgErrors->messageDetails);
                     $this->setInputDetails($vmgErrors->inputDetails);
