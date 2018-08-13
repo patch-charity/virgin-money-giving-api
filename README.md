@@ -167,7 +167,6 @@ Travis CI is setup to run tests on PRs and master. To run tests locally you will
 Once installed running `phpunit` will run tests.
 
 ## Roadmap
-- Add a test for accented characters - Only need to test the validation like on the phone number and that.
 - Get fundraising pages for an event
 - Get the fundraising total for an event
 - Create a fundraising page on behalf of someone who already has an account
