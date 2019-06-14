@@ -6,8 +6,28 @@ use Tests\VmgTestBase;
 use VirginMoneyGivingAPI\Models\Fundraiser;
 use VirginMoneyGivingAPI\Models\Page;
 
-class PageTest extends VmgTestBase {
+/**
+ * Class PageTest
+ *
+ * @package Tests\Models
+ */
+class PageTest extends VmgTestBase
+{
 
+    /**
+     * Tests:
+     *  - Fundraising date can be set in Ymd format - Done
+     *  - Team page indicator can be set - Done
+     *  - Charity contribution indicatro can be set - Done
+     *  - Team name can be set - Done
+     *  - Activity description can be set - Done
+     *  - Charity resource ID can be set - Done
+     *  - Post event fundraising interval can be set - Done
+     *  - Page title cannot be set to more than 45 characters - @todo
+     */
+    /**
+     * @test
+     */
     public function testFundraisingDate()
     {
         $page = new Page();
@@ -18,6 +38,9 @@ class PageTest extends VmgTestBase {
         $this->assertSame('20010101', $page->getFundraisingDate());
     }
 
+    /**
+     * @test
+     */
     public function testTeamPageIndicator()
     {
         $page = new Page();
@@ -28,6 +51,9 @@ class PageTest extends VmgTestBase {
         $this->assertSame('Y', $page->getTeamPageIndicator());
     }
 
+    /**
+     * @test
+     */
     public function testCharityContributionIndicator()
     {
         $page = new Page();
@@ -38,6 +64,9 @@ class PageTest extends VmgTestBase {
         $this->assertSame('Y', $page->getCharityContributionIndicator());
     }
 
+    /**
+     * @test
+     */
     public function testSetTeamName()
     {
         $page = new Page();
@@ -50,6 +79,9 @@ class PageTest extends VmgTestBase {
         $this->assertSame($page->getTeamName(), 'Normal team name');
     }
 
+    /**
+     * @test
+     */
     public function testSetActivityDescription()
     {
         $page = new Page();
@@ -62,6 +94,9 @@ class PageTest extends VmgTestBase {
         $this->assertSame($page->getActivityDescription(), 'Activity Description here');
     }
 
+    /**
+     * @test
+     */
     public function testSetCharityResourceId()
     {
         $page = new Page();
@@ -70,6 +105,9 @@ class PageTest extends VmgTestBase {
         $this->assertSame($page->getCharityResourceId(), $resourceId);
     }
 
+    /**
+     * @test
+     */
     public function testSetPostEventFundraisingInterval()
     {
         $page = new Page();
