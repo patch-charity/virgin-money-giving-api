@@ -115,4 +115,17 @@ class PageTest extends VmgTestBase
         $page->setPostEventFundraisingInterval($interval);
         $this->assertSame($page->getPostEventFundraisingInterval(), $interval);
     }
+
+    /**
+     * @test
+     */
+    public function testPagetitleCannotBeLongerThan45Characters()
+    {
+        $page = new Page();
+        $this->expectException(\Exception::class);
+        $page->setPageTitle('Lorem ipsum dolor sit amet, consectetur adipis');
+
+        $page->setPageTitle('This is the page title');
+        $this->assertSame('This is the page title', $page->getPageTitle());
+    }
 }

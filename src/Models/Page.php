@@ -87,10 +87,14 @@ class Page extends AbstractModel
     /**
      * @param string $pageTitle
      *
-     * @return Page
+     * @return \VirginMoneyGivingAPI\Models\Page
+     * @throws \Exception
      */
     public function setPageTitle(string $pageTitle): Page
     {
+        if (strlen($pageTitle) > 45) {
+            throw new \Exception('The fundraising page title must be 45 characters or less.');
+        }
         $this->pageTitle = $this->convertAccentedCharacters($pageTitle);
         return $this;
     }
@@ -233,7 +237,9 @@ class Page extends AbstractModel
      */
     public function setActivityDescription($activityDescription): Page
     {
-        $this->activityDescription = ($activityDescription) ? $this->convertAccentedCharacters($activityDescription) : null;
+        $this->activityDescription = ($activityDescription) ?
+            $this->convertAccentedCharacters($activityDescription) :
+            null;
         return $this;
     }
 
