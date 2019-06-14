@@ -5,8 +5,29 @@ namespace Tests\Models;
 use Tests\VmgTestBase;
 use VirginMoneyGivingAPI\Models\Fundraiser;
 
-class FundraiserTest extends VmgTestBase {
+/**
+ * Class FundraiserTest
+ *
+ * @package Tests\Models
+ */
+class FundraiserTest extends VmgTestBase
+{
 
+    /**
+     * Tests:
+     *  - Title can be set to a valid VMG value - Done
+     *  - Invalid email cannot be set - Done
+     *  - Postcode is required - Done
+     *  - Postcode can be set if valid UK postcode - Done
+     *  - Postcode cannot be set if not valid UK postcode - Done
+     *  - Telephone can be set if valid - Done
+     *  - Terms can conditions can only be set yo Y/N - Done
+     *  - Date of birth has to be in Ymd format - Done
+     */
+
+    /**
+     * @test
+     */
     public function testTitle()
     {
         $fundraiser = new Fundraiser();
@@ -17,6 +38,9 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame('Ms', $fundraiser->getTitle());
     }
 
+    /**
+     * @test
+     */
     public function testEmail()
     {
         $fundraiser = new Fundraiser();
@@ -27,6 +51,9 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame('test@example.com', $fundraiser->getEmailAddress());
     }
 
+    /**
+     * @test
+     */
     public function testPostcodeNoArgument()
     {
         // Set exception expectations
@@ -40,6 +67,9 @@ class FundraiserTest extends VmgTestBase {
         $fundraiser->setPostcode();
     }
 
+    /**
+     * @test
+     */
     public function testValidPostcode()
     {
         // Initiate faker library. Might be over kill for 1 test?
@@ -56,6 +86,9 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame($validPostCode, $fundraiser->getPostcode());
     }
 
+    /**
+     * @test
+     */
     public function testInvalidPostcode()
     {
         $this->expectException(\Exception::class);
@@ -72,6 +105,9 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame($invalidPostCode, $fundraiser->getPostcode());
     }
 
+    /**
+     * @test
+     */
     public function testTelephoneNumber()
     {
         $fundraiser = new Fundraiser();
@@ -87,6 +123,9 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame('123456789', $fundraiser->getPreferredTelephone());
     }
 
+    /**
+     * @test
+     */
     public function testTermsAndConditionsAccepted()
     {
         $fundraiser = new Fundraiser();
@@ -97,6 +136,9 @@ class FundraiserTest extends VmgTestBase {
         $this->assertSame('Y', $fundraiser->getTermsAndConditionsAccepted());
     }
 
+    /**
+     * @test
+     */
     public function testDateOfBirth()
     {
         $fundraiser = new Fundraiser();
