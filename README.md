@@ -167,7 +167,7 @@ Travis CI is setup to run tests on PRs and master. To run tests locally you will
 Once installed running `phpunit` will run tests.
 
 ## Roadmap
-- Get fundraising pages for an event
+- Get fundraising pages for an event - https://github.com/reason-digital/virgin-money-giving-api/issues/5
 - Get the fundraising total for an event
 - Create a fundraising page on behalf of someone who already has an account
     - Handling the auth token
