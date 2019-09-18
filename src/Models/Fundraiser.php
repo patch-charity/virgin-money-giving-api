@@ -11,6 +11,7 @@ namespace VirginMoneyGivingAPI\Models;
  */
 class Fundraiser extends AbstractModel
 {
+    const UK_POSTCODE_REGEX = '';
     /**
      * @var string
      */
@@ -97,7 +98,8 @@ class Fundraiser extends AbstractModel
     /**
      * @param string $title
      *
-     * @return Fundraiser
+     * @return \VirginMoneyGivingAPI\Models\Fundraiser
+     * @throws \Exception
      */
     public function setTitle(string $title): Fundraiser
     {
@@ -133,7 +135,8 @@ class Fundraiser extends AbstractModel
     /**
      * @return string
      */
-    public function getSurname(): string {
+    public function getSurname(): string
+    {
         return $this->surname;
     }
 
@@ -240,7 +243,7 @@ class Fundraiser extends AbstractModel
      */
     public function setPostcode(string $postcode): Fundraiser
     {
-        // Guard against invalid postcodes
+        // Guard against invalid postcodes.
         if (!preg_match('/([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))\s?[0-9][A-Za-z]{2})/', $postcode)) {
             throw new \Exception('The postcode does not match the required UK Government postcode standard.');
         }

@@ -12,7 +12,6 @@ use VirginMoneyGivingAPI\Responses\PageCreateResponse;
 
 class FundraiserVmgConnector extends AbstractVmgConnector
 {
-
     /**
      * Given a first name and surname this function will search VMG for a matching
      * fundraisers.
@@ -132,6 +131,4 @@ class FundraiserVmgConnector extends AbstractVmgConnector
 
         return new PageCreateResponse($response, $fundraiserPage);
     }
-
-
 }
